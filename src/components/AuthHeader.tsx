@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, Center, Image } from 'native-base';
-import UsersIcon from '../assets/icons/UsersIcon';
 
 type Props = {
   title: string;
@@ -15,8 +14,9 @@ export const AuthHeader: React.FC<Props> = ({ title, subtitle }) => {
         alt="logo"
         marginTop={8}
       />
-      <Center marginTop={8}>
+      <Center marginTop={8} paddingX={'16px'}>
         <Text
+          marginBottom={'8px'}
           fontSize={28}
           fontWeight={500}
           lineHeight={32}
@@ -35,7 +35,6 @@ export const AuthHeader: React.FC<Props> = ({ title, subtitle }) => {
         >
           {subtitle}
         </Text>
-        <UsersIcon />
       </Center>
     </Center>
   );

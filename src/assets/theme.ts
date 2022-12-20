@@ -2,7 +2,10 @@ import { extendTheme } from 'native-base';
 
 const newColorTheme = {
   primary: {
-    blue: '#21B8F9',
+    blue: {
+      main: '#21B8F9',
+      700: '#64CDFB',
+    },
     purple: '#6979F8',
     lila: '#BE52F2',
     red: '#F33451',
@@ -31,10 +34,10 @@ const newColorTheme = {
 const newFontConfigTheme = {
   NotoSans: {
     400: {
-      normal: 'NotoSans-Medium',
+      normal: 'NotoSans-Regular',
     },
     500: {
-      normal: 'NotoSans-Regular',
+      normal: 'NotoSans-Medium',
     },
   },
   SourceSansPro: {
