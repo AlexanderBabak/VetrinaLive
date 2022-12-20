@@ -1,20 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NativeBaseProvider } from 'native-base';
+import { RegisterScreen } from './src/screens/RegisterScreen';
+import { theme } from './src/assets/theme';
 
 const App = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text>VetrinaLive</Text>
-    </View>
+    <NativeBaseProvider theme={theme}>
+      <RegisterScreen />
+    </NativeBaseProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default App;
