@@ -1,11 +1,19 @@
-import { Center, Pressable, Text, View } from 'native-base';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { Center, Pressable, Text, View } from 'native-base';
 import HeadphonesIcon from '../../assets/icons/HeadphonesIcon';
+import { RootParamList } from '../../interfaces/navigationInterfaces';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export const ButtonSupport = () => {
+  const navigation: NativeStackNavigationProp<RootParamList> = useNavigation();
   return (
     <View maxWidth={'128px'}>
-      <Pressable onPress={() => {}}>
+      <Pressable
+        onPress={() => {
+          navigation.navigate('SupportScreen');
+        }}
+      >
         {({ isPressed }) => (
           <Center
             flexDirection={'row'}

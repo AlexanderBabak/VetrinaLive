@@ -1,15 +1,18 @@
 import { FormControl, Input } from 'native-base';
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { KeyboardTypeOptions } from 'react-native';
 
 type Props = {
   placeholder: string;
   isInvalid: boolean;
-  errorMessage: string;
+  errorMessage: string | undefined;
   keyboardType?: KeyboardTypeOptions | undefined;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
   autoCorrect?: boolean | undefined;
   secureTextEntry?: boolean;
+  value: string;
+  onChangeText: (e: string | ChangeEvent<any>) => void;
+  onBlur: (e: any) => void;
 };
 
 export const InputStyled: React.FC<Props> = ({
@@ -20,10 +23,16 @@ export const InputStyled: React.FC<Props> = ({
   autoCapitalize,
   autoCorrect,
   secureTextEntry,
+  value,
+  onChangeText,
+  onBlur,
 }) => {
   return (
     <FormControl isInvalid={isInvalid}>
       <Input
+        value={value}
+        onChangeText={onChangeText}
+        onBlur={onBlur}
         placeholder={placeholder}
         keyboardType={keyboardType}
         autoCapitalize={autoCapitalize}

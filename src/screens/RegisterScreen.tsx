@@ -6,8 +6,26 @@ import { ButtonStyled } from '../components/UI/ButtonStyled';
 import { ButtonStyledOutlined } from '../components/UI/ButtonStyledOutlined';
 import { AuthNavigation } from '../components/AuthNavigation';
 import { ButtonSupport } from '../components/UI/ButtonSupport';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootParamList } from '../interfaces/navigationInterfaces';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
-export const RegisterScreen = () => {
+const registerSchema = yup.object({
+  name: yup.string().required().min(2),
+  email: yup.string().required().email(),
+  password: yup
+    .string()
+    .required('No password provided.')
+    .min(8, 'Password is too short - should be 8 chars minimum.')
+    .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
+});
+
+type Props = {
+  navigation: NativeStackNavigationProp<RootParamList>;
+};
+
+export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <ScrollView>
       <VStack flex={1}>
@@ -16,33 +34,56 @@ export const RegisterScreen = () => {
           subtitle="Prova Vetrina Live gratuitamente per 7 giorni e apri il tuo negozio online in pochi minuti. Nessuna carta di credito richiesta."
         />
         <VStack paddingX={'15px'} paddingY={'24px'} space={6}>
-          <VStack space={4}>
-            <InputStyled
-              placeholder="Name and Surname"
-              isInvalid={false}
-              errorMessage="Error name"
-              autoCapitalize="words"
-            />
+          <Formik
+            initialValues={{ name: '', email: '', password: '' }}
+            validationSchema={registerSchema}
+            onSubmit={(values, actions) => {
+              console.log(values);
+              actions.resetForm();
+            }}
+          >
+            {props => (
+              <VStack space={4}>
+                <InputStyled
+                  value={props.values.name}
+                  onChangeText={props.handleChange('name')}
+                  onBlur={props.handleBlur('name')}
+                  isInvalid={!!props.errors.name && !!props.touched.name}
+                  errorMessage={props.errors.name}
+                  placeholder="Name and Surname"
+                  autoCapitalize="words"
+                />
 
-            <InputStyled
-              placeholder="Email"
-              isInvalid={false}
-              errorMessage="Error name"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-            <InputStyled
-              placeholder="Password"
-              isInvalid={false}
-              errorMessage="Error name"
-              autoCapitalize="none"
-              autoCorrect={false}
-              secureTextEntry={true}
-            />
-          </VStack>
-
-          <ButtonStyled onPress={() => {}}>Create your shop</ButtonStyled>
+                <InputStyled
+                  value={props.values.email}
+                  onChangeText={props.handleChange('email')}
+                  onBlur={props.handleBlur('email')}
+                  isInvalid={!!props.errors.email && !!props.touched.email}
+                  errorMessage={props.errors.email}
+                  placeholder="Email"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+                <InputStyled
+                  value={props.values.password}
+                  onChangeText={props.handleChange('password')}
+                  onBlur={props.handleBlur('password')}
+                  isInvalid={
+                    !!props.errors.password && !!props.touched.password
+                  }
+                  errorMessage={props.errors.password}
+                  placeholder="Password"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  secureTextEntry={true}
+                />
+                <ButtonStyled onPress={props.handleSubmit}>
+                  Create your shop
+                </ButtonStyled>
+              </VStack>
+            )}
+          </Formik>
 
           <HStack alignItems={'center'}>
             <Divider flex={5} bg="neutral.black.500" />
@@ -73,7 +114,9 @@ export const RegisterScreen = () => {
           <AuthNavigation
             text="Do you have an account?"
             linkText="Sign in now"
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate('LoginScreen');
+            }}
           />
           <Center>
             <ButtonSupport />
