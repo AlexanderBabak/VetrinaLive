@@ -3,6 +3,7 @@ export type RootStackParamList = {
   RegisterScreen: undefined;
   ForgotPasswordScreen: undefined;
   SupportScreen: undefined;
+  MainScreen: undefined;
 };
 
 export type RootParamList = RootStackParamList;

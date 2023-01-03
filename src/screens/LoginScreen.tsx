@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Center, Divider, HStack, ScrollView, Text, VStack } from 'native-base';
+import { Alert } from 'react-native';
 import { AuthHeader } from '../components/AuthHeader';
 import { InputStyled } from '../components/UI/InputStyled';
 import { ButtonStyled } from '../components/UI/ButtonStyled';
@@ -10,9 +11,12 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootParamList } from '../interfaces/navigationInterfaces';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { loginUser } from '../util/auth';
+import { useAppDispatch } from '../redux/reduxType';
+import { signIn } from '../redux/slices/authSlice';
 
 const loginSchema = yup.object({
-  email: yup.string().required().min(4),
+  email: yup.string().required().email(),
   password: yup
     .string()
     .required('No password provided.')
@@ -25,6 +29,29 @@ type Props = {
 };
 
 export const LoginScreen: React.FC<Props> = ({ navigation }) => {
+  const [isAuth, setIsAuth] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const loginHandler = async (values: { email: string; password: string }) => {
+    const { email, password } = values;
+    setIsAuth(true);
+    try {
+      const response = await loginUser(email, password);
+      dispatch(signIn(response));
+    } catch (error: any) {
+      Alert.alert('Authentication error!', error.message);
+    }
+    setIsAuth(false);
+  };
+
+  if (isAuth) {
+    return (
+      <Center flex={1}>
+        <Text>Login user...</Text>
+      </Center>
+    );
+  }
+
   return (
     <ScrollView>
       <VStack flex={1}>
@@ -37,7 +64,8 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
             initialValues={{ email: '', password: '' }}
             validationSchema={loginSchema}
             onSubmit={(values, actions) => {
-              console.log(values);
+              // console.log(values);
+              loginHandler(values);
               actions.resetForm();
             }}
           >

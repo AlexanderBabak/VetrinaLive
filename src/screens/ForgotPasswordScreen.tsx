@@ -1,5 +1,6 @@
-import React from 'react';
-import { Center, ScrollView, VStack } from 'native-base';
+import React, { useState } from 'react';
+import { Alert } from 'react-native';
+import { Center, ScrollView, VStack, Text } from 'native-base';
 import { AuthHeader } from '../components/AuthHeader';
 import { InputStyled } from '../components/UI/InputStyled';
 import { ButtonStyled } from '../components/UI/ButtonStyled';
@@ -9,6 +10,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootParamList } from '../interfaces/navigationInterfaces';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { forgotPassword } from '../util/auth';
 
 const forgotPasswordSchema = yup.object({
   email: yup.string().required().email(),
@@ -19,6 +21,28 @@ type Props = {
 };
 
 export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
+  const [isAuth, setIsAuth] = useState(false);
+
+  const forgotPassportHandler = async (values: { email: string }) => {
+    const { email } = values;
+    setIsAuth(true);
+    try {
+      await forgotPassword(email);
+      Alert.alert('Success', 'Check your email to reset password');
+      navigation.navigate('LoginScreen');
+    } catch (error: any) {
+      Alert.alert('Reset password failed!', 'This user does not exist');
+    }
+    setIsAuth(false);
+  };
+
+  if (isAuth) {
+    return (
+      <Center flex={1}>
+        <Text>Wait server response...</Text>
+      </Center>
+    );
+  }
   return (
     <ScrollView>
       <VStack flex={1}>
@@ -31,7 +55,7 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
             initialValues={{ email: '' }}
             validationSchema={forgotPasswordSchema}
             onSubmit={(values, actions) => {
-              console.log(values);
+              forgotPassportHandler(values);
               actions.resetForm();
             }}
           >
@@ -48,7 +72,9 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
                   autoCapitalize="none"
                   autoCorrect={false}
                 />
-                <ButtonStyled onPress={props.handleSubmit}>Login</ButtonStyled>
+                <ButtonStyled onPress={props.handleSubmit}>
+                  Reset password
+                </ButtonStyled>
               </VStack>
             )}
           </Formik>

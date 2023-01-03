@@ -7,7 +7,7 @@ type Props = {
   navigation: NativeStackNavigationProp<RootParamList>;
 };
 
-const SupportScreen: React.FC<Props> = ({ navigation }) => {
+export const SupportScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <Center flex={1}>
       <Heading>Support</Heading>
@@ -16,5 +16,3 @@ const SupportScreen: React.FC<Props> = ({ navigation }) => {
     </Center>
   );
 };
-
-export default SupportScreen;
