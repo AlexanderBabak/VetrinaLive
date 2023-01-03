@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LoginScreen } from '../screens/LoginScreen';
@@ -7,7 +7,9 @@ import { ForgotPasswordScreen } from '../screens/ForgotPasswordScreen';
 import { SupportScreen } from '../screens/SupportScreen';
 import { RootStackParamList } from '../interfaces/navigationInterfaces';
 import { MainScreen } from '../screens/MainScreen';
-import { useAppSelector } from '../redux/reduxType';
+import { useAppDispatch, useAppSelector } from '../redux/reduxType';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { signIn } from '../redux/slices/authSlice';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -38,6 +40,20 @@ const AuthenticatedStack = () => {
 
 export const Navigation = () => {
   const { token } = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const storedUser = await AsyncStorage.getItem('user');
+
+      if (storedUser) {
+        dispatch(signIn(JSON.parse(storedUser)));
+      }
+    };
+
+    fetchToken();
+  }, [dispatch]);
+
   return (
     <NavigationContainer>
       {token ? <AuthenticatedStack /> : <AuthStack />}

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Alert } from 'react-native';
+import React from 'react';
 import { Center, ScrollView, VStack, Text } from 'native-base';
 import { AuthHeader } from '../components/AuthHeader';
 import { InputStyled } from '../components/UI/InputStyled';
@@ -10,7 +9,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootParamList } from '../interfaces/navigationInterfaces';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { forgotPassword } from '../util/auth';
+import { useAppDispatch, useAppSelector } from '../redux/reduxType';
+import { forgotPasswordThunk } from '../redux/slices/authThunk';
 
 const forgotPasswordSchema = yup.object({
   email: yup.string().required().email(),
@@ -21,22 +21,10 @@ type Props = {
 };
 
 export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
-  const [isAuth, setIsAuth] = useState(false);
+  const { loadingAuth } = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
 
-  const forgotPassportHandler = async (values: { email: string }) => {
-    const { email } = values;
-    setIsAuth(true);
-    try {
-      await forgotPassword(email);
-      Alert.alert('Success', 'Check your email to reset password');
-      navigation.navigate('LoginScreen');
-    } catch (error: any) {
-      Alert.alert('Reset password failed!', 'This user does not exist');
-    }
-    setIsAuth(false);
-  };
-
-  if (isAuth) {
+  if (loadingAuth) {
     return (
       <Center flex={1}>
         <Text>Wait server response...</Text>
@@ -55,7 +43,8 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
             initialValues={{ email: '' }}
             validationSchema={forgotPasswordSchema}
             onSubmit={(values, actions) => {
-              forgotPassportHandler(values);
+              dispatch(forgotPasswordThunk(values));
+              navigation.navigate('LoginScreen');
               actions.resetForm();
             }}
           >

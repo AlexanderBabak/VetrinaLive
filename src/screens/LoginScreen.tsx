@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Center, Divider, HStack, ScrollView, Text, VStack } from 'native-base';
-import { Alert } from 'react-native';
 import { AuthHeader } from '../components/AuthHeader';
 import { InputStyled } from '../components/UI/InputStyled';
 import { ButtonStyled } from '../components/UI/ButtonStyled';
@@ -11,9 +10,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootParamList } from '../interfaces/navigationInterfaces';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { loginUser } from '../util/auth';
-import { useAppDispatch } from '../redux/reduxType';
-import { signIn } from '../redux/slices/authSlice';
+import { useAppDispatch, useAppSelector } from '../redux/reduxType';
+import { loginThunk } from '../redux/slices/authThunk';
 
 const loginSchema = yup.object({
   email: yup.string().required().email(),
@@ -29,22 +27,10 @@ type Props = {
 };
 
 export const LoginScreen: React.FC<Props> = ({ navigation }) => {
-  const [isAuth, setIsAuth] = useState(false);
+  const { loadingAuth } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
 
-  const loginHandler = async (values: { email: string; password: string }) => {
-    const { email, password } = values;
-    setIsAuth(true);
-    try {
-      const response = await loginUser(email, password);
-      dispatch(signIn(response));
-    } catch (error: any) {
-      Alert.alert('Authentication error!', error.message);
-    }
-    setIsAuth(false);
-  };
-
-  if (isAuth) {
+  if (loadingAuth) {
     return (
       <Center flex={1}>
         <Text>Login user...</Text>
@@ -64,8 +50,7 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
             initialValues={{ email: '', password: '' }}
             validationSchema={loginSchema}
             onSubmit={(values, actions) => {
-              // console.log(values);
-              loginHandler(values);
+              dispatch(loginThunk(values));
               actions.resetForm();
             }}
           >
