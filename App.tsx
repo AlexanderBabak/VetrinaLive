@@ -1,20 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NativeBaseProvider } from 'native-base';
+import { theme } from './src/assets/theme';
+import { store } from './src/redux/store';
+import { Provider } from 'react-redux';
+import { Navigation } from './src/navigation/Navigation';
 
 const App = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text>VetrinaLive</Text>
-    </View>
+    <Provider store={store}>
+      <NativeBaseProvider theme={theme}>
+        <Navigation />
+      </NativeBaseProvider>
+    </Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default App;
