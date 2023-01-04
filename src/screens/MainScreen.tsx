@@ -1,16 +1,15 @@
-import { Center, Text } from 'native-base';
 import React from 'react';
-import { ButtonStyled } from '../components/UI/ButtonStyled';
-import { useAppDispatch } from '../redux/reduxType';
-import { signOut } from '../redux/slices/authSlice';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { DashboardScreen } from './DashboardScreen';
+import { ProductsScreen } from './ProductsScreen';
+
+const Drawer = createDrawerNavigator();
 
 export const MainScreen = () => {
-  const dispatch = useAppDispatch();
-
   return (
-    <Center>
-      <Text>Hello user!</Text>
-      <ButtonStyled onPress={() => dispatch(signOut())}>Logout</ButtonStyled>
-    </Center>
+    <Drawer.Navigator>
+      <Drawer.Screen name="Dashboard" component={DashboardScreen} />
+      <Drawer.Screen name="Products" component={ProductsScreen} />
+    </Drawer.Navigator>
   );
 };

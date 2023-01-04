@@ -33,7 +33,11 @@ const AuthStack = () => {
 const AuthenticatedStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="MainScreen" component={MainScreen} />
+      <Stack.Screen
+        name="MainScreen"
+        component={MainScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
