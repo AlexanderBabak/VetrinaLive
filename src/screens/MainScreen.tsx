@@ -6,6 +6,7 @@ import { signOut } from '../redux/slices/authSlice';
 
 export const MainScreen = () => {
   const dispatch = useAppDispatch();
+
   return (
     <Center>
       <Text>Hello user!</Text>

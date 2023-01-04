@@ -12,6 +12,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../redux/reduxType';
 import { registerThunk } from '../redux/slices/authThunk';
+import { authSelector } from '../redux/slices/authSlice';
 
 const registerSchema = yup.object({
   name: yup.string().required().min(2),
@@ -28,7 +29,7 @@ type Props = {
 };
 
 export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
-  const { loadingAuth } = useAppSelector(state => state.auth);
+  const { loadingAuth } = useAppSelector(authSelector);
   const dispatch = useAppDispatch();
 
   if (loadingAuth) {

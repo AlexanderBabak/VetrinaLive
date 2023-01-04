@@ -1,6 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { forgotPasswordThunk, loginThunk, registerThunk } from './authThunk';
+import { IAuthUser } from '../../interfaces/userInterfaces';
+import { RootState } from '../store';
 
 interface IAuth {
   userName: string | null;
@@ -20,6 +22,10 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    signIn(state, action: PayloadAction<IAuthUser>) {
+      state.token = action.payload.idToken;
+      state.userName = action.payload.displayName;
+    },
     signOut(state) {
       state.userName = null;
       state.token = null;
@@ -27,48 +33,39 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    // login
-    builder.addCase(loginThunk.pending, state => {
-      state.loadingAuth = true;
-      state.errorAuth = '';
-    });
-    builder.addCase(loginThunk.fulfilled, (state, action) => {
-      state.loadingAuth = false;
-      state.userName = action.payload!.displayName;
-      state.token = action.payload!.idToken;
-    });
-    builder.addCase(loginThunk.rejected, (state, action) => {
-      state.loadingAuth = false;
-      state.errorAuth = action.error.message;
-    });
-    // register
-    builder.addCase(registerThunk.pending, state => {
-      state.loadingAuth = true;
-      state.errorAuth = '';
-    });
-    builder.addCase(registerThunk.fulfilled, (state, action) => {
-      state.loadingAuth = false;
-      state.userName = action.payload!.displayName;
-      state.token = action.payload!.idToken;
-    });
-    builder.addCase(registerThunk.rejected, (state, action) => {
-      state.loadingAuth = false;
-      state.errorAuth = action.error.message;
-    });
-    //forgot
-    builder.addCase(forgotPasswordThunk.pending, state => {
-      state.loadingAuth = true;
-      state.errorAuth = '';
-    });
-    builder.addCase(forgotPasswordThunk.fulfilled, state => {
-      state.loadingAuth = false;
-    });
-    builder.addCase(forgotPasswordThunk.rejected, (state, action) => {
-      state.loadingAuth = false;
-      state.errorAuth = action.error.message;
-    });
+    builder
+      .addCase(loginThunk.fulfilled, (state, action) => {
+        state.loadingAuth = false;
+        state.userName = action.payload.displayName;
+        state.token = action.payload.idToken;
+      })
+      .addCase(registerThunk.fulfilled, (state, action) => {
+        state.loadingAuth = false;
+        state.userName = action.payload.displayName;
+        state.token = action.payload.idToken;
+      })
+      .addCase(forgotPasswordThunk.fulfilled, state => {
+        state.loadingAuth = false;
+      })
+      .addMatcher(isLoading, state => {
+        state.loadingAuth = true;
+        state.errorAuth = '';
+      })
+      .addMatcher(isError, (state, action: PayloadAction<string>) => {
+        state.loadingAuth = false;
+        state.errorAuth = action.payload;
+      });
   },
 });
 
-export const { signOut } = authSlice.actions;
+function isError(action: AnyAction) {
+  return action.type.endsWith('rejected');
+}
+
+function isLoading(action: AnyAction) {
+  return action.type.endsWith('pending');
+}
+
+export const { signOut, signIn } = authSlice.actions;
+export const authSelector = (state: RootState) => state.auth;
 export default authSlice.reducer;

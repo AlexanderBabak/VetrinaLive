@@ -9,7 +9,7 @@ import { RootStackParamList } from '../interfaces/navigationInterfaces';
 import { MainScreen } from '../screens/MainScreen';
 import { useAppDispatch, useAppSelector } from '../redux/reduxType';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { signIn } from '../redux/slices/authSlice';
+import { authSelector, signIn } from '../redux/slices/authSlice';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -39,7 +39,7 @@ const AuthenticatedStack = () => {
 };
 
 export const Navigation = () => {
-  const { token } = useAppSelector(state => state.auth);
+  const { token } = useAppSelector(authSelector);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

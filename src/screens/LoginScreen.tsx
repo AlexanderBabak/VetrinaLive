@@ -12,6 +12,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../redux/reduxType';
 import { loginThunk } from '../redux/slices/authThunk';
+import { authSelector } from '../redux/slices/authSlice';
 
 const loginSchema = yup.object({
   email: yup.string().required().email(),
@@ -27,7 +28,7 @@ type Props = {
 };
 
 export const LoginScreen: React.FC<Props> = ({ navigation }) => {
-  const { loadingAuth } = useAppSelector(state => state.auth);
+  const { loadingAuth } = useAppSelector(authSelector);
   const dispatch = useAppDispatch();
 
   if (loadingAuth) {

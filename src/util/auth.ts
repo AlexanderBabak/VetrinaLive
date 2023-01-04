@@ -16,6 +16,7 @@ const authenticate = async (
     password: password,
     returnSecureToken: true,
   });
+
   const { displayName, idToken } = response.data;
 
   return { displayName, idToken };
