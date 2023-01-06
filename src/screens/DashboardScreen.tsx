@@ -1,17 +1,12 @@
 import React from 'react';
-import { ButtonStyled } from '../components/UI/ButtonStyled';
-import { useAppDispatch } from '../redux/reduxType';
-import { signOut } from '../redux/slices/authSlice';
 import { Center, Heading } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export const DashboardScreen = () => {
-  const dispatch = useAppDispatch();
   return (
-    <Center flex={1}>
+    <Center flex={1} backgroundColor="#fff">
       <Heading>DashboardScreen</Heading>
-      <Center>
-        <ButtonStyled onPress={() => dispatch(signOut())}>Logout</ButtonStyled>
-      </Center>
+      <Center>{/* <Icon name="eye" size={30} color="black" /> */}</Center>
     </Center>
   );
 };

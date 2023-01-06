@@ -10,6 +10,7 @@ import { MainScreen } from '../screens/MainScreen';
 import { useAppDispatch, useAppSelector } from '../redux/reduxType';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authSelector, signIn } from '../redux/slices/authSlice';
+import { StatusBar } from 'native-base';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -60,6 +61,11 @@ export const Navigation = () => {
 
   return (
     <NavigationContainer>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="#fff"
+        showHideTransition="fade"
+      />
       {token ? <AuthenticatedStack /> : <AuthStack />}
     </NavigationContainer>
   );
