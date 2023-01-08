@@ -92,7 +92,7 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
                   autoCorrect={false}
                   secureTextEntry={true}
                 />
-                <ButtonStyled onPress={props.handleSubmit}>
+                <ButtonStyled onPress={props.handleSubmit} fontSize={14}>
                   Create your shop
                 </ButtonStyled>
               </VStack>

@@ -4,6 +4,7 @@ import React from 'react';
 type Props = {
   children: string;
   onPress: () => void;
+  fontSize: number;
   maxWidth?: string;
 };
 
@@ -11,6 +12,7 @@ export const ButtonStyled: React.FC<Props> = ({
   children,
   onPress,
   maxWidth,
+  fontSize,
 }) => {
   return (
     <View maxWidth={maxWidth}>
@@ -29,7 +31,7 @@ export const ButtonStyled: React.FC<Props> = ({
               color="neutral.white"
               fontFamily="body"
               fontWeight={600}
-              fontSize={14}
+              fontSize={fontSize}
               lineHeight={20}
             >
               {children}

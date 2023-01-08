@@ -81,7 +81,9 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
                   autoCorrect={false}
                   secureTextEntry={true}
                 />
-                <ButtonStyled onPress={props.handleSubmit}>Login</ButtonStyled>
+                <ButtonStyled onPress={props.handleSubmit} fontSize={14}>
+                  Login
+                </ButtonStyled>
               </VStack>
             )}
           </Formik>
