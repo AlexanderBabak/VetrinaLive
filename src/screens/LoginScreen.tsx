@@ -41,7 +41,7 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <ScrollView>
-      <VStack flex={1}>
+      <VStack flex={1} backgroundColor="#fff">
         <AuthHeader
           title="Welcome"
           subtitle="Enter your email and password to access your account"

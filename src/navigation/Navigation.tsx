@@ -10,6 +10,7 @@ import { MainScreen } from '../screens/MainScreen';
 import { useAppDispatch, useAppSelector } from '../redux/reduxType';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authSelector, signIn } from '../redux/slices/authSlice';
+import { StatusBar } from 'native-base';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -33,7 +34,11 @@ const AuthStack = () => {
 const AuthenticatedStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="MainScreen" component={MainScreen} />
+      <Stack.Screen
+        name="MainScreen"
+        component={MainScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
@@ -56,6 +61,11 @@ export const Navigation = () => {
 
   return (
     <NavigationContainer>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="#fff"
+        showHideTransition="fade"
+      />
       {token ? <AuthenticatedStack /> : <AuthStack />}
     </NavigationContainer>
   );

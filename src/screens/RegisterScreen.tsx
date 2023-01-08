@@ -42,7 +42,7 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <ScrollView>
-      <VStack flex={1}>
+      <VStack flex={1} backgroundColor="#fff">
         <AuthHeader
           title="Create your e-commerce"
           subtitle="Prova Vetrina Live gratuitamente per 7 giorni e apri il tuo negozio online in pochi minuti. Nessuna carta di credito richiesta."
