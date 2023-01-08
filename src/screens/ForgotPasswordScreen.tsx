@@ -61,7 +61,7 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
                 autoCapitalize="none"
                 autoCorrect={false}
               />
-              <ButtonStyled onPress={props.handleSubmit}>
+              <ButtonStyled onPress={props.handleSubmit} fontSize={14}>
                 Reset password
               </ButtonStyled>
             </VStack>
