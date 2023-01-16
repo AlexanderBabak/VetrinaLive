@@ -6,6 +6,7 @@ export const PaymentScreen = () => {
     <Center flex={1}>
       <Heading>PaymentScreen</Heading>
       <Text>Check this screen for commit</Text>
+      <Text>Check this screen for commit new</Text>
     </Center>
   );
 };
