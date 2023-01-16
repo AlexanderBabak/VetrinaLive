@@ -41,7 +41,7 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <VStack flex={1} backgroundColor="#fff">
         <AuthHeader
           title="Create your e-commerce"
