@@ -40,8 +40,8 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <VStack flex={1} backgroundColor="#fff">
+    <VStack flex={1} backgroundColor="#fff">
+      <ScrollView showsVerticalScrollIndicator={false}>
         <AuthHeader
           title="Welcome"
           subtitle="Enter your email and password to access your account"
@@ -135,7 +135,7 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
             <ButtonSupport />
           </Center>
         </VStack>
-      </VStack>
-    </ScrollView>
+      </ScrollView>
+    </VStack>
   );
 };

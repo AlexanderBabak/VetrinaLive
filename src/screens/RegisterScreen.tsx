@@ -41,8 +41,8 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <VStack flex={1} backgroundColor="#fff">
+    <VStack flex={1} backgroundColor="#fff">
+      <ScrollView showsVerticalScrollIndicator={false}>
         <AuthHeader
           title="Create your e-commerce"
           subtitle="Prova Vetrina Live gratuitamente per 7 giorni e apri il tuo negozio online in pochi minuti. Nessuna carta di credito richiesta."
@@ -136,7 +136,7 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
             <ButtonSupport />
           </Center>
         </VStack>
-      </VStack>
-    </ScrollView>
+      </ScrollView>
+    </VStack>
   );
 };
